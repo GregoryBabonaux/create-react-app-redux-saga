@@ -1,5 +1,5 @@
 ## About
-<p>This is an extended version of create-react-app-redux with some new features : </p>
+<p>This is an humble extended version of create-react-app-redux with some new features : </p>
 
 - redux-saga
 - redux-actions
@@ -9,9 +9,10 @@
 - sass support with node-sass-chokidar and scripts (no need to eject !)
 - some refactoring to match with <Scenes /> & components structure (<a href="https://medium.com/@alexmngn/how-to-better-organize-your-react-applications-2fd3ea1920f1">See more here</a>)
 - pre-configured Gitlab CI file
-- replace react-router-redux by connected-react-router
+- replace react-router-redux by connected-react-router for react router v4 support
 - react-testing-library from kentcdodds <3
 - cypress for e2e tests
+- redux-persist (take a look <a href="https://blog.reactnativecoach.com/the-definitive-guide-to-redux-persist-84738167975">for implementation details</a>)
 
 ---
 ## Original ReadMe
