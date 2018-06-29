@@ -4,6 +4,7 @@
 - <a href="https://github.com/redux-saga/redux-saga">redux-saga</a>
 - <a href="https://github.com/redux-utilities/redux-actions">redux-actions</a>
 - prop-types
+- <a href="https://github.com/reduxjs/reselect">re-select</a>
 - <a href="https://ant.design/docs/react/introduce">antd</a> (can be replaced by any other css framework or styled-component, just edit index.js)
 - <a href="https://github.com/styled-components/styled-components">styled-component</a> (can be used with or replaced by... you got it...)
 - sass support with node-sass-chokidar and scripts (no need to eject !)
