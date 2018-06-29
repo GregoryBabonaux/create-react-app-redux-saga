@@ -17,28 +17,28 @@ import Title from 'components/Title';
 const Home = ({ count, increment, isIncrementing, incrementAsync, decrement, isDecrementing, changePage }) => (
   <div>
     <Title>Home</Title>
-    <p>Count: {count}</p>
+    <p>Count: <span data-cy="counter">{count}</span></p>
 
     <p>
-      <Button onClick={increment} disabled={isIncrementing}>
+      <Button onClick={increment} disabled={isIncrementing} data-cy="button-increment">
         Increment
       </Button>
-      <Button onClick={incrementAsync} disabled={isIncrementing}>
+      <Button onClick={incrementAsync} disabled={isIncrementing} data-cy="button-async-increment">
         Increment Async
       </Button>
     </p>
 
     <p>
-      <Button onClick={decrement} disabled={isDecrementing}>
+      <Button onClick={decrement} disabled={isDecrementing} data-cy="button-decrement">
         Decrement
       </Button>
-      <Button onClick={decrementAsync} disabled={isDecrementing}>
+      <Button onClick={decrementAsync} disabled={isDecrementing} data-cy="button-async-decrement">
         Decrement Async
       </Button>
     </p>
 
     <p>
-      <Button onClick={() => changePage()}>
+      <Button onClick={() => changePage()} data-cy="go-to-about">
         Go to about page via redux
       </Button>
     </p>
