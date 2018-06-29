@@ -9,6 +9,7 @@ import Home from 'scenes/Home';
 import About from 'scenes/About';
 import Auth from 'scenes/Auth';
 import Dog from 'scenes/Dog';
+import Basket from 'scenes/Basket';
 
 // components
 const { Header, Content, Footer } = Layout;
@@ -40,6 +41,8 @@ const App = props => {
           <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
           <Menu.Item key="2"><Link to="/about-us">About</Link></Menu.Item>
           <Menu.Item key="3"><Link to="/dogs">Dogs</Link></Menu.Item>
+          <Menu.Item key="5"><Link to="/basket">Basket</Link></Menu.Item>
+
           <Menu.Item key="4" style={{ float: 'right'}}>
             {!isEmpty(props.auth.user) ? props.auth.user.username 
               : <Link to="/auth">Auth</Link>
@@ -53,6 +56,7 @@ const App = props => {
           <Route exact path="/" component={Home} />
           <Route path="/about-us" component={About} />
           <Route path="/dogs" component={Dog} />
+          <Route path="/basket" component={Basket} />
           <Route path="/auth" component={Auth} />
         </Switch>
       </Content>
