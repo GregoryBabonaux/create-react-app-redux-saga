@@ -27,7 +27,7 @@ class List extends React.PureComponent {
     const { props: { match, dogs, selectBreed } } = this;
     return (
       <div>
-        <Title>Dogs revenge</Title>
+        <Title red>Dogs revenge</Title>
         <ul>
           {dogs.map((dog, index) => (
             <li onClick={() => selectBreed(dog.breed)} key={index}>

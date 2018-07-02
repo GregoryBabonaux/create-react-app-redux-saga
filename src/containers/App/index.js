@@ -4,6 +4,11 @@ import { Layout, Menu } from 'antd';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
+import { func, object, string } from 'prop-types';
+
+// redux
+import { logout } from 'modules/auth/actions';
+
 // scenes
 import Home from 'scenes/Home';
 import About from 'scenes/About';
@@ -11,21 +16,35 @@ import Auth from 'scenes/Auth';
 import Dog from 'scenes/Dog';
 import Basket from 'scenes/Basket';
 
-// components
 const { Header, Content, Footer } = Layout;
 
 const App = props => {
-  const setDefaultSelectedMenuItem = () => {
-    switch (props.pathname) {
-      case '/about-us':
-        return ['2'];
-      case '/dogs':
-        return ['3'];
-      case '/auth':
-        return isEmpty(props.auth.user) ? ['4'] : ['0'];
-      default:
-        return ['1'];
+  const navigation = [
+    {
+      path: '/',
+      name: 'Home',
+    },
+    {
+      path: '/about-us',
+      name: 'About',
+    },
+    {
+      path: '/dogs',
+      name: 'Dogs',
+      authed: true,
+    },
+    {
+      path: '/basket',
+      name: 'Panier'
     }
+  ]
+
+  const setDefaultSelectedMenuItem = () => {
+    navigation.forEach((link, index) => {
+      if (link.path === props.pathname) {
+        return [index.toString()];
+      }
+    });
   }
 
   return (
@@ -38,13 +57,17 @@ const App = props => {
           defaultSelectedKeys={setDefaultSelectedMenuItem()}
           style={{ lineHeight: '64px' }}
         >
-          <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
-          <Menu.Item key="2"><Link to="/about-us">About</Link></Menu.Item>
-          <Menu.Item key="3"><Link to="/dogs">Dogs</Link></Menu.Item>
-          <Menu.Item key="5"><Link to="/basket">Basket</Link></Menu.Item>
+          {
+            navigation.map((link, index) => { //eslint-disable-line
+              if ((link.authed && !isEmpty(props.auth.user)) || (!link.authed)) {
+                return (<Menu.Item key={index}><Link to={link.path}>{link.name}</Link></Menu.Item>)
+              }
+            })
+          }
 
           <Menu.Item key="4" style={{ float: 'right'}}>
-            {!isEmpty(props.auth.user) ? props.auth.user.username 
+            {!isEmpty(props.auth.user) 
+              ? <a onClick={props.logout}>{props.auth.user.username}</a>
               : <Link to="/auth">Auth</Link>
             }
           </Menu.Item>
@@ -68,9 +91,19 @@ const App = props => {
   );
 }
 
+App.propTypes = {
+  logout: func,
+  pathname: string,
+  auth: object,
+}
+
 const mapStateToProps = state => ({
   pathname: state.router.location.pathname,
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = {
+   logout,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
