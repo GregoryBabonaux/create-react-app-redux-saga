@@ -1,5 +1,5 @@
 import React from 'react';
-import { object, array } from 'prop-types';
+import { string, number, array } from 'prop-types';
 
 // redux
 import { connect } from 'react-redux';
@@ -9,6 +9,12 @@ import { getTotalPriceInBasket } from 'modules/basket/selectors'
 import Title from 'components/Title';
 
 class Basket extends React.PureComponent {
+
+  static propsTypes = {
+    items: array,
+    totalPrice: number,
+    currency: string,
+  }
 
   render() {
     const { props: { items, totalPrice, currency } } = this;
