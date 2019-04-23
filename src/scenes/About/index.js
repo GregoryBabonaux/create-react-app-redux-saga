@@ -5,8 +5,7 @@ import Title from 'components/Title';
 
 import Me from './scenes/Me';
 
-const About = (props) => {
-  console.log(props);
+const About = props => {
   return (
     <div>
       <Title>About Page</Title>
@@ -17,6 +16,6 @@ const About = (props) => {
       </Switch>
     </div>
   );
-}
+};
 
 export default About;

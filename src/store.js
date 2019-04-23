@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory } from 'history'
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import rootReducer from './modules';
 
 // redux-saga
@@ -15,18 +15,19 @@ import { persistStore, persistReducer } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware();
 
 // Configure redux-persist
 const persistConfig = {
   key: 'root',
   storage: storage,
-  stateReconciler: autoMergeLevel2, // for two-level deep merge 
+  stateReconciler: autoMergeLevel2, // for two-level deep merge
   blacklist: ['dog', 'counter'], // see also whitelist
 };
-const pReducer = persistReducer(persistConfig, rootReducer);
 
-export const history = createBrowserHistory()
+export const history = createBrowserHistory();
+
+const pReducer = persistReducer(persistConfig, rootReducer(history));
 
 const initialState = {};
 const enhancers = [];
@@ -40,10 +41,14 @@ if (process.env.NODE_ENV === 'development') {
   }
 }
 
-const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
+const composedEnhancers = compose(
+  applyMiddleware(...middleware),
+  ...enhancers
+);
 
 // If you don't need persist, change pReducer by rootReducer
-const store = createStore(connectRouter(history)(pReducer), initialState, composedEnhancers);
+const store = createStore(pReducer, initialState, composedEnhancers);
+
 export default store;
 export const persistor = persistStore(store);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Link, Switch } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash';
 import { func, object, string } from 'prop-types';
 
 // redux
-import { logout } from 'modules/auth/actions';
+import { logout } from 'modules/auth/actions';
 
 // scenes
 import Home from 'scenes/Home';
@@ -35,67 +35,73 @@ const App = props => {
     },
     {
       path: '/basket',
-      name: 'Panier'
-    }
-  ]
+      name: 'Panier',
+    },
+  ];
 
   const setDefaultSelectedMenuItem = () => {
     navigation.forEach((link, index) => {
-      if (link.path === props.pathname) {
+      if (link.path === props.pathname) {
         return [index.toString()];
       }
     });
-  }
+  };
 
   return (
-    <Layout className="layout">
-      <Header>
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={setDefaultSelectedMenuItem()}
-          style={{ lineHeight: '64px' }}
-        >
-          {
-            navigation.map((link, index) => { //eslint-disable-line
-              if ((link.authed && !isEmpty(props.auth.user)) || (!link.authed)) {
-                return (<Menu.Item key={index}><Link to={link.path}>{link.name}</Link></Menu.Item>)
+    <Router>
+      <Layout className="layout">
+        <Header>
+          <div className="logo" />
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={setDefaultSelectedMenuItem()}
+            style={{ lineHeight: '64px' }}>
+            {navigation.map((link, index) => {
+              //eslint-disable-line
+              if ((link.authed && !isEmpty(props.auth.user)) || !link.authed) {
+                return (
+                  <Menu.Item key={index}>
+                    <Link to={link.path}>{link.name}</Link>
+                  </Menu.Item>
+                );
               }
-            })
-          }
+            })}
 
-          <Menu.Item key="4" style={{ float: 'right'}}>
-            {!isEmpty(props.auth.user) 
-              ? <a onClick={props.logout}>{props.auth.user.username}</a>
-              : <Link to="/auth">Auth</Link>
-            }
-          </Menu.Item>
-        </Menu>
-      </Header>
+            <Menu.Item key="4" style={{ float: 'right' }}>
+              {!isEmpty(props.auth.user) ? (
+                <a onClick={props.logout}>{props.auth.user.username}</a>
+              ) : (
+                <Link to="/auth">Auth</Link>
+              )}
+            </Menu.Item>
+          </Menu>
+        </Header>
 
-      <Content style={{ padding: '0 50px' }}>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/about-us" component={About} />
-          <Route path="/dogs" component={Dog} />
-          <Route path="/basket" component={Basket} />
-          <Route path="/auth" component={Auth} />
-        </Switch>
-      </Content>
+        <Content style={{ padding: '0 50px' }}>
+          *
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/about-us" component={About} />
+            <Route path="/dogs" component={Dog} />
+            <Route path="/basket" component={Basket} />
+            <Route path="/auth" component={Auth} />
+          </Switch>
+        </Content>
 
-      <Footer style={{ textAlign: 'center' }}>
-        Create React App Redux enhanced
-      </Footer>
-    </Layout>
+        <Footer style={{ textAlign: 'center' }}>
+          Create React App Redux enhanced
+        </Footer>
+      </Layout>
+    </Router>
   );
-}
+};
 
 App.propTypes = {
   logout: func,
   pathname: string,
   auth: object,
-}
+};
 
 const mapStateToProps = state => ({
   pathname: state.router.location.pathname,
@@ -103,7 +109,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-   logout,
-}
+  logout,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
